@@ -6,14 +6,14 @@ import datacompy
 df1=pd.read_csv('file1.csv', na_values=['NA'])
 df2=pd.read_csv('file2.csv', na_values=['NA'])
 
-df1.sort_values(by ='CITY' , inplace=True, ascending=False)
-df2.sort_values(by ='CITY' , inplace=True, ascending=False)
+df1.sort_values(by ='NAME' , inplace=True, ascending=False)
+df2.sort_values(by ='NAME' , inplace=True, ascending=False)
    
 print (" Rows in df1")
 row = df1.shape[0]
 print(row)
        
-print (" Columns in df1")
+print ("Columns in df1")
 
 col = df1.shape[1]
 
@@ -44,9 +44,9 @@ for item in zip(rows,cols):
 
 output= (df1.reset_index(drop=True) == df2.reset_index(drop=True))| df1.reset_index(drop=True).isnull()==df2.reset_index(drop=True).isnull()
 
-output['Unmatched Values']=df2.CITY
+output['not matched Values']=df2.NAME
 
-output['diff']=out.sum(int(True))-df2.CITY
+output['diff']=out.sum(int(True))-df2.NAME
  
 
 
@@ -59,8 +59,8 @@ output['diff']=out.sum(int(True))-df2.CITY
 df2['version'] = "file1"
 df1['version'] = "file2"
 
-file1 = set(df2['CITY'])
-file2 = set(df1['CITY'])
+file1 = set(df2['NAME'])
+file2 = set(df1['NAME'])
 Diff_Values = file1 - file2
 new_Values = file2 - file2
 
@@ -68,8 +68,8 @@ new_Values = file2 - file2
 Adding_files = pd.concat([df1,df2],ignore_index=True)
 changes = Adding_files.drop_duplicates(subset=["A","B","C"], keep=False)
 
-diff_Vlaues = changes[changes['CITY'].duplicated() == True]['CITY'].tolist()
-diff = changes[changes["CITY"].isin(diff_Vlaues)]
+diff_Vlaues = changes[changes['NAME'].duplicated() == True]['NAME'].tolist()
+diff = changes[changes["NAME"].isin(diff_Vlaues)]
 
 New = diff[(diff["version"] == "file1")]
 Old = diff[(diff["version"] == "file2")]
@@ -95,8 +95,8 @@ changes = changes.swaplevel(axis='columns')[New.columns[0:]]
 df_Diff = changes.groupby(level=0, axis=1).apply(lambda frame: frame.apply(Diffrent_val, axis=1))
 df_Diff = df_Diff.reset_index()
 
-df_difff = changes[changes["CITY"].isin(Diff_Values)]
-df_new = changes[changes["CITY"].isin(new_Values)]
+df_difff = changes[changes["NAME"].isin(Diff_Values)]
+df_new = changes[changes["NAME"].isin(new_Values)]
 
 output_columns = ["A","B","C"]
 writer = pd.ExcelWriter("outout.xlsx")
